@@ -2,32 +2,60 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 export interface IngredientItem {
   amountText: string;
   highlightText?: string;
 }
 
+export interface TastingNotes {
+  visual: string;
+  aromatic: string;
+  taste: string;
+}
+
+export interface NutritionalInfo {
+  energy: string;
+  carbs: string;
+  sugars: string;
+  fat: string;
+  saturatedFat: string;
+  protein: string;
+  salt: string;
+}
+
 export interface DrinkData {
   id: string;
   badge: string;
+  badgeImage?: string;
   productTitle: string;
+  productSubtitle?: string;
   productImage: string;
   productDescription: string;
-  cocktailBadge: string;
-  cocktailTitle: string;
-  cocktailImage: string;
-  cocktailDescription: string;
-  ingredients: IngredientItem[];
-  materials: string[];
-  recipe: string[];
+  
+  // Opciones de Cóctel (para productos con receta)
+  cocktailBadge?: string;
+  cocktailTitle?: string;
+  cocktailImage?: string;
+  cocktailDescription?: string;
+  ingredients?: IngredientItem[];
+  materials?: string[];
+  recipe?: string[];
+
+  // Composición de la Botella e Información Nutricional
+  bottleIngredients?: string[];
+  tastingNotes?: TastingNotes;
+  nutrition?: NutritionalInfo;
 }
 
 export const DRINKS_DATA: DrinkData[] = [
   {
     id: "petit-aperol",
     badge: "Aperitivo 0.0% Alcohol",
-    productTitle: "Petit Aperol",
+    badgeImage: "/CocktailAperol/AperolShield.webp",
+    productTitle: "Orange Spritz",
+    productSubtitle: "Inspiré de la liqueur d'orange",
     productImage: "/CocktailAperol/petitAperol.webp",
     productDescription:
       "Fresca, aromática y profundamente vegetal, nuestra esencia se inspira en la riqueza de los aperitivos tradicionales sin nada de alcohol. Elaborada sin fermentación, revela una compleja paleta de plantas, hierbas y cítricos. Una alternativa elegante y sensorial, pensada para los amantes de la mixología y la libertad.",
@@ -53,14 +81,34 @@ export const DRINKS_DATA: DrinkData[] = [
       "Completa con 30 ml de agua tónica bien fría, mezcla delicadamente con la cuchara para no romper las burbujas y decora con una rodaja de naranja.",
       "Este cóctel sin alcohol está listo para ser disfrutado, espumante y refrescante, perfecto para un aperitivo festivo.",
     ],
+    bottleIngredients: [
+      "Jarabe de azúcar de caña, agua",
+      "Colorantes: caroteno, zanahoria negra",
+      "Acidificante: ácido cítrico",
+      "Aromas naturales de naranja con otros aromas naturales (incluyendo quinina)",
+      "Aroma natural",
+      "Conservantes: sorbato de potasio y benzoato de sodio",
+      "Producto pasteurizado.",
+    ],
+    nutrition: {
+      energy: "624 kJ / 149 kcal",
+      carbs: "36.6 g",
+      sugars: "34 g",
+      fat: "0 g",
+      saturatedFat: "0 g",
+      protein: "0 g",
+      salt: "0 g",
+    },
   },
   {
     id: "petit-gin",
     badge: "Espirituoso Botánico 0.0% Alcohol",
-    productTitle: "Petit Gin",
+    badgeImage: "/CocktailGin/GinShield.webp",
+    productTitle: "Essence Botanique",
+    productSubtitle: "Inspiré du Gin",
     productImage: "/CocktailGin/petitGin.webp",
     productDescription:
-      "Ultra fresco e intensamente aromático, nuestro Petit Gin rinde homenaje a las grandes ginebras botánicas sin contener una sola gota de alcohol. Revela vibrantes notas de enebro, cítricos frescos y hierbas aromáticas finamente seleccionadas para elevar la experiencia de cocktail contemporánea.",
+      "Ultra fresco e intensamente aromático, nuestro Essence Botanique rinde homenaje a las grandes ginebras botánicas sin contener una sola gota de alcohol. Revela vibrantes notas de enebro, cítricos frescos y hierbas aromáticas finamente seleccionadas para elevar la experiencia de cocktail contemporánea.",
     cocktailBadge: "Cocktail",
     cocktailTitle: "Gin Basil Smash 0%",
     cocktailImage: "/CocktailGin/Cocktail_Gin_Basil_Smash_0.webp",
@@ -84,21 +132,89 @@ export const DRINKS_DATA: DrinkData[] = [
       "Añade 50 ml de Essence Botanique Petit Béret (Petit Gin) y 10 ml de jarabe de agave con abundante hielo.",
       "Agita enérgicamente en la coctelera y filtra en un vaso lleno de hielo fresco. Decora con hojas de albahaca.",
     ],
+    bottleIngredients: [
+      "Agua",
+      "Acidificante: ácido láctico",
+      "Glicerina vegetal",
+      "Destilado de cardamomo",
+      "Extracto de cilantro",
+      "Aroma natural de baya de enebro con otros aromas naturales",
+      "Conservantes: sorbato de potasio y benzoato de sodio",
+      "Producto pasteurizado.",
+    ],
+    nutrition: {
+      energy: "4 kJ / 1 kcal",
+      carbs: "0 g",
+      sugars: "0 g",
+      fat: "0 g",
+      saturatedFat: "0 g",
+      protein: "0 g",
+      salt: "0 g",
+    },
+  },
+  {
+    id: "le-blanc-espumante",
+    badge: "Espumante 0.0% Alcohol",
+    badgeImage: "/PetitShield.webp",
+    productTitle: "Le Blanc Espumante",
+    productSubtitle: "Brut 0.0% Vol",
+    productImage: "/Leblanc/Leblank-Bottle.webp",
+    productDescription:
+      "Elegante, fresco y delicadamente efervescente, este blanco espumante encarna la fineza y el brillo natural de la uva. Elaborado sin fermentación, revela una hermosa expresión floral y frutal, impulsada por una burbuja fina y persistente.",
+    tastingNotes: {
+      visual:
+        "Un color oro claro con reflejos plateados, límpido y brillante. La efervescencia es viva, animada por finas burbujas que danzan en la copa con precisión.",
+      aromatic:
+        "Una nariz directa y expresiva, marcada por aromas a manzana verde, pera fresca y ralladura de limón. Una paleta aromática nítida y refrescante.",
+      taste:
+        "El ataque es vivo y enérgico, impulsado por una gran tensión. La fruta se expresa con claridad, sostenida por una efervescencia elegante. El final es tenso, cítrico y casi salino. Un espumante de carácter, franco, seco y profundamente refrescante.",
+    },
+    bottleIngredients: [
+      "Infusión de pepitas de uva (agua, pepitas de uva)",
+      "Jugo de uva (19%)",
+      "Aroma natural",
+      "Acidificantes: ácido cítrico, ácido málico",
+      "Dióxido de carbono",
+      "Contiene SULFITOS. Producto pasteurizado.",
+    ],
+    nutrition: {
+      energy: "88 kJ / 21 kcal",
+      carbs: "4.4 g",
+      sugars: "3.6 g",
+      fat: "0 g",
+      saturatedFat: "0 g",
+      protein: "0 g",
+      salt: "0 g",
+    },
   },
 ];
 
 function DrinkSection({ drink }: { drink: DrinkData }) {
-  const [activeTab, setActiveTab] = useState<"ingredients" | "materials" | "recipe">("ingredients");
+  // Pestaña para la información propia del producto / botella
+  const [productTab, setProductTab] = useState<"composition" | "nutrition" | "cata">(
+    drink.tastingNotes ? "cata" : "composition"
+  );
+
+  // Pestaña para la sección del Cóctel
+  const [cocktailTab, setCocktailTab] = useState<"ingredients" | "materials" | "recipe">("ingredients");
+
+  const hasCocktail = Boolean(drink.cocktailImage);
 
   return (
     <div className="w-full border-b border-zinc-200">
       
-      {/* SECCIÓN PRODUCTO (100vw en móvil) */}
+      {/* 1. SECCIÓN PRINCIPAL DEL PRODUCTO */}
       <div className="w-full min-h-screen bg-white text-zinc-900 border-b border-zinc-200 py-12 md:py-16 flex items-center justify-center">
         <div className="w-full px-0 sm:px-12 lg:px-20 flex flex-col md:flex-row items-center justify-between gap-8 lg:gap-16">
           
-          {/* Imagen de la Botella (100vw de borde a borde en móvil) */}
-          <div className="w-full md:w-1/2 h-[65vh] sm:h-[80vh] lg:h-[90vh] relative flex justify-center items-center">
+          {/* Botella con animación suave de entrada */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full md:w-1/2 h-[65vh] sm:h-[80vh] lg:h-[90vh] relative flex justify-center items-center"
+          >
             <Image
               src={drink.productImage}
               alt={drink.productTitle}
@@ -107,156 +223,314 @@ function DrinkSection({ drink }: { drink: DrinkData }) {
               className="object-contain"
               priority
             />
-          </div>
+          </motion.div>
 
-          {/* Descripción del Producto */}
-          <div className="w-full md:w-1/2 space-y-6 text-left max-w-2xl px-6 md:px-0">
-            <span className="inline-block text-xs font-semibold tracking-widest text-zinc-500 uppercase font-roboto border-b border-zinc-300 pb-1">
+          {/* Información del Producto con animación suave */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full md:w-1/2 space-y-6 text-left max-w-2xl px-6 md:px-0 flex flex-col items-start"
+          >
+            
+            {/* Escudo del Producto */}
+            {drink.badgeImage && (
+              <div className="relative w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 -mb-2">
+                <Image
+                  src={drink.badgeImage}
+                  alt={`${drink.productTitle} Shield Logo`}
+                  fill
+                  sizes="(max-width: 768px) 160px, 200px"
+                  className="object-contain object-left"
+                />
+              </div>
+            )}
+
+            <span className="inline-block text-xs font-semibold tracking-widest text-zinc-500 uppercase font-roboto border-b border-zinc-300 pb-1 text-left">
               {drink.badge}
             </span>
             
-            <h2 className="font-oswald text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight text-zinc-900 uppercase leading-none">
-              {drink.productTitle}
-            </h2>
+            <div className="space-y-2 text-left w-full">
+              <h2 className="font-oswald text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight text-zinc-900 uppercase leading-none text-left">
+                {drink.productTitle}
+              </h2>
+              {drink.productSubtitle && (
+                <p className="font-oswald text-lg sm:text-2xl lg:text-3xl font-semibold uppercase text-zinc-400 tracking-wider text-left">
+                  {drink.productSubtitle}
+                </p>
+              )}
+            </div>
             
-            <p className="font-roboto text-zinc-700 text-base sm:text-xl lg:text-2xl leading-relaxed font-light">
+            <p className="font-roboto text-zinc-700 text-base sm:text-xl lg:text-2xl leading-relaxed font-light text-left">
               {drink.productDescription}
             </p>
-          </div>
 
-        </div>
-      </div>
+            {/* Pestañas de Composición / Nutrición / Cata de la Botella */}
+            <div className="w-full pt-6 border-t border-zinc-200 space-y-4">
+              <nav className="flex items-center gap-4 sm:gap-6 border-b border-zinc-200 pb-2 overflow-x-auto">
+                {drink.tastingNotes && (
+                  <button
+                    onClick={() => setProductTab("cata")}
+                    className={`font-roboto text-xs sm:text-sm uppercase tracking-wider transition-all cursor-pointer shrink-0 ${
+                      productTab === "cata"
+                        ? "font-bold text-zinc-900 border-b-2 border-zinc-900 -mb-[9px] pb-2"
+                        : "text-zinc-400 hover:text-zinc-700"
+                    }`}
+                  >
+                    Notas de Cata
+                  </button>
+                )}
+                {drink.bottleIngredients && (
+                  <button
+                    onClick={() => setProductTab("composition")}
+                    className={`font-roboto text-xs sm:text-sm uppercase tracking-wider transition-all cursor-pointer shrink-0 ${
+                      productTab === "composition"
+                        ? "font-bold text-zinc-900 border-b-2 border-zinc-900 -mb-[9px] pb-2"
+                        : "text-zinc-400 hover:text-zinc-700"
+                    }`}
+                  >
+                    Ingredientes Botella
+                  </button>
+                )}
+                {drink.nutrition && (
+                  <button
+                    onClick={() => setProductTab("nutrition")}
+                    className={`font-roboto text-xs sm:text-sm uppercase tracking-wider transition-all cursor-pointer shrink-0 ${
+                      productTab === "nutrition"
+                        ? "font-bold text-zinc-900 border-b-2 border-zinc-900 -mb-[9px] pb-2"
+                        : "text-zinc-400 hover:text-zinc-700"
+                    }`}
+                  >
+                    Valores Nutricionales
+                  </button>
+                )}
+              </nav>
 
-      {/* SECCIÓN CÓCTEL + RECETA (Estructura idéntica al HTML lepetitberet.com) */}
-      <div className="w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 min-h-screen">
-          
-          {/* COLUMNA IZQUIERDA (50vw): Foto del Cóctel + Texto Centrado en Blanco */}
-          <div className="lg:col-span-6 relative min-h-[500px] lg:min-h-screen flex items-center justify-center bg-zinc-950 p-8 sm:p-12 text-center">
-            <Image
-              src={drink.cocktailImage}
-              alt={drink.cocktailTitle}
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover opacity-80"
-            />
-            
-            <div className="relative z-10 max-w-lg mx-auto space-y-4 text-white flex flex-col items-center justify-center">
-              <span className="inline-block px-3 py-1 text-xs font-semibold tracking-widest text-white bg-white/20 uppercase font-roboto">
-                {drink.cocktailBadge}
-              </span>
-              
-              <h2 className="oswald-custom uppercase text-white tracking-widest text-center">
-                {drink.cocktailTitle}
-              </h2>
-              
-              <p className="font-roboto text-white/90 text-sm sm:text-base lg:text-lg font-light leading-relaxed max-w-md text-center">
-                {drink.cocktailDescription}
-              </p>
-            </div>
-          </div>
-
-          {/* COLUMNA DERECHA (50vw): Pestañas Horizontales e Información */}
-          <div className="lg:col-span-6 p-8 sm:p-12 lg:p-16 bg-white flex flex-col justify-center border-t lg:border-t-0 lg:border-l border-zinc-200">
-            
-            {/* Pestañas (timeline__nav) */}
-            <nav className="flex items-center justify-start border-b border-zinc-200 gap-8 pb-3 mb-8">
-              <button
-                onClick={() => setActiveTab("ingredients")}
-                className={`font-roboto text-sm sm:text-base uppercase tracking-wider transition-all cursor-pointer ${
-                  activeTab === "ingredients"
-                    ? "font-bold text-zinc-900 border-b-2 border-zinc-900 -mb-[13px] pb-3"
-                    : "text-zinc-400 hover:text-zinc-700"
-                }`}
-              >
-                Ingredientes
-              </button>
-              <button
-                onClick={() => setActiveTab("materials")}
-                className={`font-roboto text-sm sm:text-base uppercase tracking-wider transition-all cursor-pointer ${
-                  activeTab === "materials"
-                    ? "font-bold text-zinc-900 border-b-2 border-zinc-900 -mb-[13px] pb-3"
-                    : "text-zinc-400 hover:text-zinc-700"
-                }`}
-              >
-                Materiales
-              </button>
-              <button
-                onClick={() => setActiveTab("recipe")}
-                className={`font-roboto text-sm sm:text-base uppercase tracking-wider transition-all cursor-pointer ${
-                  activeTab === "recipe"
-                    ? "font-bold text-zinc-900 border-b-2 border-zinc-900 -mb-[13px] pb-3"
-                    : "text-zinc-400 hover:text-zinc-700"
-                }`}
-              >
-                Receta
-              </button>
-            </nav>
-
-            {/* VISTA 1: INGREDIENTES */}
-            {activeTab === "ingredients" && (
-              <div className="space-y-6">
-                <h3 className="font-oswald text-3xl sm:text-4xl font-bold text-zinc-900 uppercase">
-                  Ingredientes
-                </h3>
-                <ul className="space-y-4 font-roboto text-base sm:text-lg text-zinc-800">
-                  {drink.ingredients.map((item, idx) => (
-                    <li key={idx} className="flex items-center gap-3">
-                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-900 shrink-0"></span>
-                      <span>
-                        {item.amountText}
-                        {item.highlightText && (
-                          <a
-                            href="#"
-                            className="font-oswald font-bold uppercase underline underline-offset-4 text-zinc-900 hover:text-zinc-700"
-                          >
-                            {item.highlightText}
-                          </a>
-                        )}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {/* VISTA 2: MATERIALES */}
-            {activeTab === "materials" && (
-              <div className="space-y-6">
-                <h3 className="font-oswald text-3xl sm:text-4xl font-bold text-zinc-900 uppercase">
-                  Materiales
-                </h3>
-                <ul className="space-y-4 font-roboto text-base sm:text-lg text-zinc-800">
-                  {drink.materials.map((mat, idx) => (
-                    <li key={idx} className="flex items-center gap-3">
-                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-900 shrink-0"></span>
-                      <span className="font-oswald font-bold uppercase tracking-wider text-zinc-900">
-                        {mat}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {/* VISTA 3: RECETA */}
-            {activeTab === "recipe" && (
-              <div className="space-y-6">
-                <h3 className="font-oswald text-3xl sm:text-4xl font-bold text-zinc-900 uppercase">
-                  Receta
-                </h3>
-                <div className="space-y-4 font-roboto text-base sm:text-lg text-zinc-700 leading-relaxed font-light">
-                  {drink.recipe.map((step, idx) => (
-                    <p key={idx}>{step}</p>
-                  ))}
+              {/* VISTA 1: NOTAS DE CATA */}
+              {productTab === "cata" && drink.tastingNotes && (
+                <div className="space-y-4 text-left pt-2 font-roboto">
+                  <div>
+                    <h4 className="font-oswald text-base font-bold text-zinc-900 uppercase">Firma Visual</h4>
+                    <p className="text-zinc-700 text-sm leading-relaxed">{drink.tastingNotes.visual}</p>
+                  </div>
+                  <div className="border-t border-zinc-100 pt-2">
+                    <h4 className="font-oswald text-base font-bold text-zinc-900 uppercase">Impresión Aromática</h4>
+                    <p className="text-zinc-700 text-sm leading-relaxed">{drink.tastingNotes.aromatic}</p>
+                  </div>
+                  <div className="border-t border-zinc-100 pt-2">
+                    <h4 className="font-oswald text-base font-bold text-zinc-900 uppercase">Expresión Gustativa</h4>
+                    <p className="text-zinc-700 text-sm leading-relaxed">{drink.tastingNotes.taste}</p>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-          </div>
+              {/* VISTA 2: INGREDIENTES DE LA BOTELLA */}
+              {productTab === "composition" && drink.bottleIngredients && (
+                <ul className="space-y-2 text-left pt-2 font-roboto text-sm text-zinc-800">
+                  {drink.bottleIngredients.map((ing, idx) => (
+                    <li key={idx} className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-900 shrink-0"></span>
+                      <span>{ing}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              {/* VISTA 3: VALORES NUTRICIONALES */}
+              {productTab === "nutrition" && drink.nutrition && (
+                <div className="space-y-2 text-left pt-2">
+                  <p className="font-roboto text-xs text-zinc-500 uppercase tracking-wider mb-2">
+                    Valores calculados por cada 100 ml
+                  </p>
+                  <div className="border border-zinc-200 divide-y divide-zinc-200 font-roboto text-xs sm:text-sm w-full max-w-md">
+                    <div className="flex justify-between p-2 bg-zinc-50">
+                      <span className="font-medium text-zinc-900">Energía</span>
+                      <span className="text-zinc-700">{drink.nutrition.energy}</span>
+                    </div>
+                    <div className="flex justify-between p-2">
+                      <span className="font-medium text-zinc-900">Carbohidratos</span>
+                      <span className="text-zinc-700">{drink.nutrition.carbs}</span>
+                    </div>
+                    <div className="flex justify-between p-2 pl-4 text-xs text-zinc-600 bg-zinc-50/50">
+                      <span>de los cuales azúcares</span>
+                      <span>{drink.nutrition.sugars}</span>
+                    </div>
+                    <div className="flex justify-between p-2">
+                      <span className="font-medium text-zinc-900">Materias Grasas</span>
+                      <span className="text-zinc-700">{drink.nutrition.fat}</span>
+                    </div>
+                    <div className="flex justify-between p-2 pl-4 text-xs text-zinc-600 bg-zinc-50/50">
+                      <span>de las cuales saturadas</span>
+                      <span>{drink.nutrition.saturatedFat}</span>
+                    </div>
+                    <div className="flex justify-between p-2">
+                      <span className="font-medium text-zinc-900">Proteínas</span>
+                      <span className="text-zinc-700">{drink.nutrition.protein}</span>
+                    </div>
+                    <div className="flex justify-between p-2 bg-zinc-50">
+                      <span className="font-medium text-zinc-900">Sal</span>
+                      <span className="text-zinc-700">{drink.nutrition.salt}</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+          </motion.div>
 
         </div>
       </div>
+
+      {/* 2. SECCIÓN CÓCTEL Y RECETA */}
+      {hasCocktail && drink.cocktailImage && (
+        <div className="w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-12 min-h-screen">
+            
+            {/* Foto del Cóctel con entrada parallax/fade */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.8 }}
+              className="lg:col-span-6 relative min-h-[500px] lg:min-h-screen flex items-center justify-start bg-zinc-950 p-8 sm:p-12 md:p-16 text-left"
+            >
+              <Image
+                src={drink.cocktailImage}
+                alt={drink.cocktailTitle || drink.productTitle}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover opacity-80"
+              />
+              
+              <div className="relative z-10 max-w-lg space-y-4 text-white flex flex-col items-start text-left">
+                {drink.cocktailBadge && (
+                  <span className="inline-block px-3 py-1 text-xs font-semibold tracking-widest text-white bg-white/20 uppercase font-roboto text-left">
+                    {drink.cocktailBadge}
+                  </span>
+                )}
+                
+                {drink.cocktailTitle && (
+                  <h2 className="oswald-custom uppercase text-white tracking-widest text-left">
+                    {drink.cocktailTitle}
+                  </h2>
+                )}
+                
+                {drink.cocktailDescription && (
+                  <p className="font-roboto text-white/90 text-sm sm:text-base lg:text-lg font-light leading-relaxed max-w-md text-left">
+                    {drink.cocktailDescription}
+                  </p>
+                )}
+              </div>
+            </motion.div>
+
+            {/* Pestañas del Cóctel */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+              className="lg:col-span-6 p-8 sm:p-12 lg:p-16 bg-white flex flex-col justify-center border-t lg:border-t-0 lg:border-l border-zinc-200 text-left"
+            >
+              
+              <nav className="flex items-center justify-start border-b border-zinc-200 gap-8 pb-3 mb-8">
+                <button
+                  onClick={() => setCocktailTab("ingredients")}
+                  className={`font-roboto text-sm sm:text-base uppercase tracking-wider transition-all cursor-pointer ${
+                    cocktailTab === "ingredients"
+                      ? "font-bold text-zinc-900 border-b-2 border-zinc-900 -mb-[13px] pb-3"
+                      : "text-zinc-400 hover:text-zinc-700"
+                  }`}
+                >
+                  Ingredientes
+                </button>
+                <button
+                  onClick={() => setCocktailTab("materials")}
+                  className={`font-roboto text-sm sm:text-base uppercase tracking-wider transition-all cursor-pointer ${
+                    cocktailTab === "materials"
+                      ? "font-bold text-zinc-900 border-b-2 border-zinc-900 -mb-[13px] pb-3"
+                      : "text-zinc-400 hover:text-zinc-700"
+                  }`}
+                >
+                  Materiales
+                </button>
+                <button
+                  onClick={() => setCocktailTab("recipe")}
+                  className={`font-roboto text-sm sm:text-base uppercase tracking-wider transition-all cursor-pointer ${
+                    cocktailTab === "recipe"
+                      ? "font-bold text-zinc-900 border-b-2 border-zinc-900 -mb-[13px] pb-3"
+                      : "text-zinc-400 hover:text-zinc-700"
+                  }`}
+                >
+                  Receta
+                </button>
+              </nav>
+
+              {/* VISTA 1: INGREDIENTES CÓCTEL */}
+              {cocktailTab === "ingredients" && drink.ingredients && (
+                <div className="space-y-6 text-left">
+                  <h3 className="font-oswald text-3xl sm:text-4xl font-bold text-zinc-900 uppercase text-left">
+                    Ingredientes
+                  </h3>
+                  <ul className="space-y-4 font-roboto text-base sm:text-lg text-zinc-800 text-left">
+                    {drink.ingredients.map((item, idx) => (
+                      <li key={idx} className="flex items-center gap-3 text-left">
+                        <span className="w-1.5 h-1.5 rounded-full bg-zinc-900 shrink-0"></span>
+                        <span>
+                          {item.amountText}
+                          {item.highlightText && (
+                            <a
+                              href="#"
+                              className="font-oswald font-bold uppercase underline underline-offset-4 text-zinc-900 hover:text-zinc-700"
+                            >
+                              {item.highlightText}
+                            </a>
+                          )}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* VISTA 2: MATERIALES */}
+              {cocktailTab === "materials" && drink.materials && (
+                <div className="space-y-6 text-left">
+                  <h3 className="font-oswald text-3xl sm:text-4xl font-bold text-zinc-900 uppercase text-left">
+                    Materiales
+                  </h3>
+                  <ul className="space-y-4 font-roboto text-base sm:text-lg text-zinc-800 text-left">
+                    {drink.materials.map((mat, idx) => (
+                      <li key={idx} className="flex items-center gap-3 text-left">
+                        <span className="w-1.5 h-1.5 rounded-full bg-zinc-900 shrink-0"></span>
+                        <span className="font-oswald font-bold uppercase tracking-wider text-zinc-900 text-left">
+                          {mat}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* VISTA 3: RECETA */}
+              {cocktailTab === "recipe" && drink.recipe && (
+                <div className="space-y-6 text-left">
+                  <h3 className="font-oswald text-3xl sm:text-4xl font-bold text-zinc-900 uppercase text-left">
+                    Receta
+                  </h3>
+                  <div className="space-y-4 font-roboto text-base sm:text-lg text-zinc-700 leading-relaxed font-light text-left">
+                    {drink.recipe.map((step, idx) => (
+                      <p key={idx} className="text-left">{step}</p>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+            </motion.div>
+
+          </div>
+        </div>
+      )}
 
     </div>
   );

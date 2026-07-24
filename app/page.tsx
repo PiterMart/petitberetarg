@@ -9,7 +9,7 @@ const conceptsData: ConceptSectionProps[] = [
     title: "ORIGEN",
     badge: "Nuestra Historia",
     subtitle: "Un nuevo arte de vivir desde Francia",
-    imageSrc: "/Historia.webp",
+    imageSrc: "/french-winery.webp",
     imageAlt: "Historia y origen de Le Petit Beret",
     paragraphs: [
       "Le Petit Beret nació en Francia con una idea simple pero ambiciosa: que nadie tenga que renunciar al ritual del brindis, la copa compartida o el aperitivo entre amigos por no beber alcohol.",
@@ -21,7 +21,7 @@ const conceptsData: ConceptSectionProps[] = [
     title: "PROCESO",
     badge: "Innovación & Calidad",
     subtitle: "0% Alcohol desde el origen y sustentabilidad",
-    imageSrc: "/PetitShield.webp",
+    imageSrc: "/brunch.jpg",
     imageAlt: "Proceso y escudo de calidad Petit Shield",
     paragraphs: [
       "El corazón del proceso de Le Petit Beret es una innovación clave: la ausencia total de alcohol desde el origen. A diferencia de los vinos desalcoholizados tradicionales, que primero fermentan con alcohol y luego se lo extraen, esta marca desarrolló un método patentado junto a enólogos y expertos en extracción natural que preserva la integridad aromática de la fruta sin que el alcohol llegue a producirse en ningún momento.",
@@ -30,15 +30,10 @@ const conceptsData: ConceptSectionProps[] = [
     ],
   },
   {
-    title: "LIFESTYLE",
+    title: "ESTILO DE VIDA",
     badge: "Fitness & Wellness",
     subtitle: "El placer de brindar sin comprometer tu bienestar",
-    images: [
-      "/lifestyle.webp",
-      "/lifestyle 2.webp",
-      "/lifestyle 3.webp",
-      "/lifestyle 4.webp",
-    ],
+    imageSrc: "/lifestyle.webp",
     imageAlt: "Estilo de vida y momentos Le Petit Beret",
     paragraphs: [
       "Le Petit Beret encaja de forma natural con un estilo de vida consciente y activo por varias razones. Al no producirse alcohol en ningún momento del proceso (y no eliminarse después), se evitan los residuos y trazas que sí pueden quedar en algunos productos desalcoholizados.",

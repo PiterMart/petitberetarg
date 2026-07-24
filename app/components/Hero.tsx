@@ -1,7 +1,7 @@
 export default function Hero() {
   return (
-    <section className="relative w-full h-screen overflow-hidden bg-black">
-      {/* Video de fondo a pantalla completa 100vh sin bordes */}
+    <section className="relative w-full h-[70vh] overflow-hidden bg-black">
+      {/* Video de fondo a 80vh */}
       <video
         src="/PetitberetVideo.mp4"
         autoPlay

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 export interface ConceptSectionProps {
   title: string;
@@ -52,11 +53,17 @@ export default function ConceptSection({
     <section className="w-full py-12 md:py-24 border-b border-zinc-200 last:border-b-0 bg-white text-zinc-900 overflow-hidden">
       <div className="max-w-7xl mx-auto px-0 lg:px-12 flex flex-col lg:flex-row gap-8 lg:gap-16 items-center">
         
-        {/* COLUMNA 1: IMAGEN O CARRUSEL PRIMERO (100vw en móvil de borde a borde) */}
-        <div className="w-full lg:w-1/2 min-h-[360px] sm:min-h-[480px] lg:min-h-[580px] relative bg-zinc-50 border-y lg:border border-zinc-200 overflow-hidden flex items-center justify-center shrink-0">
+        {/* COLUMNA 1: IMAGEN CON ANIMACIÓN DE ENTRADA SUAVE */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="w-full lg:w-1/2 min-h-[360px] sm:min-h-[480px] lg:min-h-[580px] relative bg-zinc-50 border-y lg:border border-zinc-200 overflow-hidden flex items-center justify-center shrink-0"
+        >
           {imageList.length > 0 ? (
             <>
-              {/* Imágenes del Carrusel / Imagen única (object-contain para no recortar) */}
+              {/* Imágenes del Carrusel / Imagen única */}
               {imageList.map((src, idx) => (
                 <div
                   key={src}
@@ -118,10 +125,16 @@ export default function ConceptSection({
               </span>
             </div>
           )}
-        </div>
+        </motion.div>
 
-        {/* COLUMNA 2: CONTENEDOR DE TEXTO (Padding en móvil para legibilidad) */}
-        <div className="flex-1 space-y-6 px-6 lg:px-0">
+        {/* COLUMNA 2: CONTENEDOR DE TEXTO CON ANIMACIÓN REVELADORA SUAVE */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+          className="flex-1 space-y-6 px-6 lg:px-0"
+        >
           {badge && (
             <span className="inline-block text-xs font-semibold tracking-widest text-zinc-500 uppercase font-roboto border-b border-zinc-300 pb-1">
               {badge}
@@ -143,7 +156,7 @@ export default function ConceptSection({
               <p key={idx}>{paragraph}</p>
             ))}
           </div>
-        </div>
+        </motion.div>
 
       </div>
     </section>
