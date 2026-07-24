@@ -4,7 +4,7 @@ import ScrollProgress from "./components/ScrollProgress";
 
 export const metadata: Metadata = {
   title: "Le Petit Beret",
-  description: "Le Petit Beret web application",
+  description: "Le Petit Beret Argentina",
 };
 
 export default function RootLayout({

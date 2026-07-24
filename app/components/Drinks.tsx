@@ -15,16 +15,6 @@ export interface TastingNotes {
   taste: string;
 }
 
-export interface NutritionalInfo {
-  energy: string;
-  carbs: string;
-  sugars: string;
-  fat: string;
-  saturatedFat: string;
-  protein: string;
-  salt: string;
-}
-
 export interface DrinkData {
   id: string;
   badge: string;
@@ -33,6 +23,7 @@ export interface DrinkData {
   productSubtitle?: string;
   productImage: string;
   productDescription: string;
+  video?: string;
   
   // Opciones de Cóctel (para productos con receta)
   cocktailBadge?: string;
@@ -43,10 +34,8 @@ export interface DrinkData {
   materials?: string[];
   recipe?: string[];
 
-  // Composición de la Botella e Información Nutricional
-  bottleIngredients?: string[];
+  // Notas de Cata para Vinos / Espumantes
   tastingNotes?: TastingNotes;
-  nutrition?: NutritionalInfo;
 }
 
 export const DRINKS_DATA: DrinkData[] = [
@@ -59,6 +48,7 @@ export const DRINKS_DATA: DrinkData[] = [
     productImage: "/CocktailAperol/petitAperol.webp",
     productDescription:
       "Fresca, aromática y profundamente vegetal, nuestra esencia se inspira en la riqueza de los aperitivos tradicionales sin nada de alcohol. Elaborada sin fermentación, revela una compleja paleta de plantas, hierbas y cítricos. Una alternativa elegante y sensorial, pensada para los amantes de la mixología y la libertad.",
+    video: "/CocktailAperol/Preparation aperol.mp4",
     cocktailBadge: "Cocktail",
     cocktailTitle: "Orange Spritz 0%",
     cocktailImage: "/CocktailAperol/Cocktail_Orange_Spritz.webp",
@@ -81,24 +71,6 @@ export const DRINKS_DATA: DrinkData[] = [
       "Completa con 30 ml de agua tónica bien fría, mezcla delicadamente con la cuchara para no romper las burbujas y decora con una rodaja de naranja.",
       "Este cóctel sin alcohol está listo para ser disfrutado, espumante y refrescante, perfecto para un aperitivo festivo.",
     ],
-    bottleIngredients: [
-      "Jarabe de azúcar de caña, agua",
-      "Colorantes: caroteno, zanahoria negra",
-      "Acidificante: ácido cítrico",
-      "Aromas naturales de naranja con otros aromas naturales (incluyendo quinina)",
-      "Aroma natural",
-      "Conservantes: sorbato de potasio y benzoato de sodio",
-      "Producto pasteurizado.",
-    ],
-    nutrition: {
-      energy: "624 kJ / 149 kcal",
-      carbs: "36.6 g",
-      sugars: "34 g",
-      fat: "0 g",
-      saturatedFat: "0 g",
-      protein: "0 g",
-      salt: "0 g",
-    },
   },
   {
     id: "petit-gin",
@@ -132,25 +104,6 @@ export const DRINKS_DATA: DrinkData[] = [
       "Añade 50 ml de Essence Botanique Petit Béret (Petit Gin) y 10 ml de jarabe de agave con abundante hielo.",
       "Agita enérgicamente en la coctelera y filtra en un vaso lleno de hielo fresco. Decora con hojas de albahaca.",
     ],
-    bottleIngredients: [
-      "Agua",
-      "Acidificante: ácido láctico",
-      "Glicerina vegetal",
-      "Destilado de cardamomo",
-      "Extracto de cilantro",
-      "Aroma natural de baya de enebro con otros aromas naturales",
-      "Conservantes: sorbato de potasio y benzoato de sodio",
-      "Producto pasteurizado.",
-    ],
-    nutrition: {
-      energy: "4 kJ / 1 kcal",
-      carbs: "0 g",
-      sugars: "0 g",
-      fat: "0 g",
-      saturatedFat: "0 g",
-      protein: "0 g",
-      salt: "0 g",
-    },
   },
   {
     id: "le-blanc-espumante",
@@ -169,32 +122,10 @@ export const DRINKS_DATA: DrinkData[] = [
       taste:
         "El ataque es vivo y enérgico, impulsado por una gran tensión. La fruta se expresa con claridad, sostenida por una efervescencia elegante. El final es tenso, cítrico y casi salino. Un espumante de carácter, franco, seco y profundamente refrescante.",
     },
-    bottleIngredients: [
-      "Infusión de pepitas de uva (agua, pepitas de uva)",
-      "Jugo de uva (19%)",
-      "Aroma natural",
-      "Acidificantes: ácido cítrico, ácido málico",
-      "Dióxido de carbono",
-      "Contiene SULFITOS. Producto pasteurizado.",
-    ],
-    nutrition: {
-      energy: "88 kJ / 21 kcal",
-      carbs: "4.4 g",
-      sugars: "3.6 g",
-      fat: "0 g",
-      saturatedFat: "0 g",
-      protein: "0 g",
-      salt: "0 g",
-    },
   },
 ];
 
 function DrinkSection({ drink }: { drink: DrinkData }) {
-  // Pestaña para la información propia del producto / botella
-  const [productTab, setProductTab] = useState<"composition" | "nutrition" | "cata">(
-    drink.tastingNotes ? "cata" : "composition"
-  );
-
   // Pestaña para la sección del Cóctel
   const [cocktailTab, setCocktailTab] = useState<"ingredients" | "materials" | "recipe">("ingredients");
 
@@ -266,50 +197,13 @@ function DrinkSection({ drink }: { drink: DrinkData }) {
               {drink.productDescription}
             </p>
 
-            {/* Pestañas de Composición / Nutrición / Cata de la Botella */}
-            <div className="w-full pt-6 border-t border-zinc-200 space-y-4">
-              <nav className="flex items-center gap-4 sm:gap-6 border-b border-zinc-200 pb-2 overflow-x-auto">
-                {drink.tastingNotes && (
-                  <button
-                    onClick={() => setProductTab("cata")}
-                    className={`font-roboto text-xs sm:text-sm uppercase tracking-wider transition-all cursor-pointer shrink-0 ${
-                      productTab === "cata"
-                        ? "font-bold text-zinc-900 border-b-2 border-zinc-900 -mb-[9px] pb-2"
-                        : "text-zinc-400 hover:text-zinc-700"
-                    }`}
-                  >
-                    Notas de Cata
-                  </button>
-                )}
-                {drink.bottleIngredients && (
-                  <button
-                    onClick={() => setProductTab("composition")}
-                    className={`font-roboto text-xs sm:text-sm uppercase tracking-wider transition-all cursor-pointer shrink-0 ${
-                      productTab === "composition"
-                        ? "font-bold text-zinc-900 border-b-2 border-zinc-900 -mb-[9px] pb-2"
-                        : "text-zinc-400 hover:text-zinc-700"
-                    }`}
-                  >
-                    Ingredientes Botella
-                  </button>
-                )}
-                {drink.nutrition && (
-                  <button
-                    onClick={() => setProductTab("nutrition")}
-                    className={`font-roboto text-xs sm:text-sm uppercase tracking-wider transition-all cursor-pointer shrink-0 ${
-                      productTab === "nutrition"
-                        ? "font-bold text-zinc-900 border-b-2 border-zinc-900 -mb-[9px] pb-2"
-                        : "text-zinc-400 hover:text-zinc-700"
-                    }`}
-                  >
-                    Valores Nutricionales
-                  </button>
-                )}
-              </nav>
-
-              {/* VISTA 1: NOTAS DE CATA */}
-              {productTab === "cata" && drink.tastingNotes && (
-                <div className="space-y-4 text-left pt-2 font-roboto">
+            {/* NOTAS DE CATA (Solo para productos como Le Blanc Espumante) */}
+            {drink.tastingNotes && (
+              <div className="w-full pt-6 border-t border-zinc-200 space-y-4">
+                <span className="font-roboto text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                  Notas de Cata
+                </span>
+                <div className="space-y-4 text-left font-roboto">
                   <div>
                     <h4 className="font-oswald text-base font-bold text-zinc-900 uppercase">Firma Visual</h4>
                     <p className="text-zinc-700 text-sm leading-relaxed">{drink.tastingNotes.visual}</p>
@@ -323,64 +217,35 @@ function DrinkSection({ drink }: { drink: DrinkData }) {
                     <p className="text-zinc-700 text-sm leading-relaxed">{drink.tastingNotes.taste}</p>
                   </div>
                 </div>
-              )}
-
-              {/* VISTA 2: INGREDIENTES DE LA BOTELLA */}
-              {productTab === "composition" && drink.bottleIngredients && (
-                <ul className="space-y-2 text-left pt-2 font-roboto text-sm text-zinc-800">
-                  {drink.bottleIngredients.map((ing, idx) => (
-                    <li key={idx} className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-900 shrink-0"></span>
-                      <span>{ing}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-
-              {/* VISTA 3: VALORES NUTRICIONALES */}
-              {productTab === "nutrition" && drink.nutrition && (
-                <div className="space-y-2 text-left pt-2">
-                  <p className="font-roboto text-xs text-zinc-500 uppercase tracking-wider mb-2">
-                    Valores calculados por cada 100 ml
-                  </p>
-                  <div className="border border-zinc-200 divide-y divide-zinc-200 font-roboto text-xs sm:text-sm w-full max-w-md">
-                    <div className="flex justify-between p-2 bg-zinc-50">
-                      <span className="font-medium text-zinc-900">Energía</span>
-                      <span className="text-zinc-700">{drink.nutrition.energy}</span>
-                    </div>
-                    <div className="flex justify-between p-2">
-                      <span className="font-medium text-zinc-900">Carbohidratos</span>
-                      <span className="text-zinc-700">{drink.nutrition.carbs}</span>
-                    </div>
-                    <div className="flex justify-between p-2 pl-4 text-xs text-zinc-600 bg-zinc-50/50">
-                      <span>de los cuales azúcares</span>
-                      <span>{drink.nutrition.sugars}</span>
-                    </div>
-                    <div className="flex justify-between p-2">
-                      <span className="font-medium text-zinc-900">Materias Grasas</span>
-                      <span className="text-zinc-700">{drink.nutrition.fat}</span>
-                    </div>
-                    <div className="flex justify-between p-2 pl-4 text-xs text-zinc-600 bg-zinc-50/50">
-                      <span>de las cuales saturadas</span>
-                      <span>{drink.nutrition.saturatedFat}</span>
-                    </div>
-                    <div className="flex justify-between p-2">
-                      <span className="font-medium text-zinc-900">Proteínas</span>
-                      <span className="text-zinc-700">{drink.nutrition.protein}</span>
-                    </div>
-                    <div className="flex justify-between p-2 bg-zinc-50">
-                      <span className="font-medium text-zinc-900">Sal</span>
-                      <span className="text-zinc-700">{drink.nutrition.salt}</span>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
+              </div>
+            )}
 
           </motion.div>
 
         </div>
       </div>
+
+      {/* 1.5 SECCIÓN DE VIDEO DE PREPARACIÓN DE CÓCTEL */}
+      {drink.video && (
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.7 }}
+          className="w-full bg-black py-12 md:py-20 border-b border-zinc-200 flex flex-col items-center justify-center"
+        >
+          <div className="max-w-5xl w-full px-4 sm:px-6">
+            <video
+              src={drink.video}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-auto max-h-[75vh] object-cover shadow-2xl rounded-sm"
+            />
+          </div>
+        </motion.div>
+      )}
 
       {/* 2. SECCIÓN CÓCTEL Y RECETA */}
       {hasCocktail && drink.cocktailImage && (

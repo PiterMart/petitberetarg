@@ -4,20 +4,27 @@ import { useRef } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 
-const MANIFESTO_TEXT =
-  "Francia nos enseñó a beber bien, Petit Beret nos enseña a beber mejor. Hemos unido la alquimia de los mejores sommeliers con el respeto por la naturaleza para crear el Gin y el Vermouth del futuro. Bebidas orgánicas, premiadas internacionalmente y diseñadas para quienes buscan calidad premium sin el peso del alcohol.";
+const HIGHLIGHT_LINES = [
+  "Francia nos enseñó a beber bien,",
+  "Petit Beret nos enseña a beber mejor.",
+];
+
+const BODY_PARAGRAPH =
+  "Hemos unido la alquimia de los mejores sommeliers con el respeto por la naturaleza para crear el Gin y el Vermouth del futuro. Bebidas orgánicas, premiadas internacionalmente y diseñadas para quienes buscan calidad premium sin el peso del alcohol.";
 
 function Word({
   word,
   progress,
   range,
+  activeColor = "#09090b",
 }: {
   word: string;
   progress: MotionValue<number>;
   range: [number, number];
+  activeColor?: string;
 }) {
   const opacity = useTransform(progress, range, [0.35, 1]);
-  const color = useTransform(progress, range, ["#9ca3af", "#09090b"]);
+  const color = useTransform(progress, range, ["#9ca3af", activeColor]);
 
   return (
     <motion.span
@@ -36,8 +43,11 @@ export default function VisionSection() {
     offset: ["start 0.85", "end 0.35"],
   });
 
-  const words = MANIFESTO_TEXT.split(" ");
-  const totalWords = words.length;
+  const highlightWords = HIGHLIGHT_LINES.flatMap((line) => line.split(" "));
+  const bodyWords = BODY_PARAGRAPH.split(" ");
+  const totalWords = highlightWords.length + bodyWords.length;
+
+  let globalWordIndex = 0;
 
   return (
     <section
@@ -63,21 +73,55 @@ export default function VisionSection() {
           Nuestra visión
         </span>
 
-        {/* Párrafo normal en negrita con altura de línea de 2rem */}
-        <p className="font-roboto text-xl sm:text-2xl md:text-3xl font-bold leading-[2rem] text-center max-w-2xl text-zinc-900">
-          {words.map((word, i) => {
-            const start = i / totalWords;
-            const end = (i + 1) / totalWords;
-            return (
-              <Word
-                key={i}
-                word={word}
-                progress={scrollYProgress}
-                range={[start, end]}
-              />
-            );
-          })}
-        </p>
+        <div className="space-y-6 max-w-2xl text-center">
+          
+          {/* Primeras dos líneas destacadas en negrita con menor separación entre sí */}
+          <div className="space-y-1">
+            {HIGHLIGHT_LINES.map((lineText, lineIdx) => {
+              const lineWords = lineText.split(" ");
+              return (
+                <h3
+                  key={lineIdx}
+                  className="font-roboto text-xl sm:text-2xl md:text-3xl font-bold leading-tight text-center text-zinc-900"
+                >
+                  {lineWords.map((word) => {
+                    const currentIndex = globalWordIndex++;
+                    const start = currentIndex / totalWords;
+                    const end = (currentIndex + 1) / totalWords;
+                    return (
+                      <Word
+                        key={currentIndex}
+                        word={word}
+                        progress={scrollYProgress}
+                        range={[start, end]}
+                        activeColor="#09090b"
+                      />
+                    );
+                  })}
+                </h3>
+              );
+            })}
+          </div>
+
+          {/* El resto del texto como un párrafo normal (font-light, leading-relaxed, text-zinc-700) */}
+          <p className="font-roboto text-base sm:text-lg md:text-xl font-light leading-relaxed text-center text-zinc-700">
+            {bodyWords.map((word) => {
+              const currentIndex = globalWordIndex++;
+              const start = currentIndex / totalWords;
+              const end = (currentIndex + 1) / totalWords;
+              return (
+                <Word
+                  key={currentIndex}
+                  word={word}
+                  progress={scrollYProgress}
+                  range={[start, end]}
+                  activeColor="#3f3f46"
+                />
+              );
+            })}
+          </p>
+
+        </div>
 
       </div>
     </section>
