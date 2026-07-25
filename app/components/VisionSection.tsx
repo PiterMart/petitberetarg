@@ -75,8 +75,8 @@ export default function VisionSection() {
 
         <div className="space-y-6 max-w-2xl text-center">
           
-          {/* Primeras dos líneas destacadas en negrita con menor separación entre sí */}
-          <div className="space-y-1">
+          {/* Primeras dos líneas destacadas en su contenedor propio con 5vh de margen superior e inferior */}
+          <div className="my-[5vh] space-y-1">
             {HIGHLIGHT_LINES.map((lineText, lineIdx) => {
               const lineWords = lineText.split(" ");
               return (

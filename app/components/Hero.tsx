@@ -26,7 +26,7 @@ export default function Hero() {
   }, [currentVideoIndex]);
 
   return (
-    <section className="relative w-full h-[70vh] overflow-hidden bg-black flex items-center justify-center">
+    <section className="relative w-full h-[90vh] overflow-hidden bg-black flex items-center justify-center">
       {/* Video de fondo en secuencia numerada 1 -> 2 -> 3 */}
       <video
         ref={videoRef}

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 export interface IngredientItem {
   amountText: string;
@@ -125,27 +125,21 @@ export const DRINKS_DATA: DrinkData[] = [
   },
 ];
 
-function DrinkSection({ drink }: { drink: DrinkData }) {
+function DrinkSectionContent({ drink }: { drink: DrinkData }) {
   // Pestaña para la sección del Cóctel
   const [cocktailTab, setCocktailTab] = useState<"ingredients" | "materials" | "recipe">("ingredients");
 
   const hasCocktail = Boolean(drink.cocktailImage);
 
   return (
-    <div className="w-full border-b border-zinc-200">
+    <div className="w-full bg-white text-zinc-900 border-t border-zinc-200">
       
       {/* 1. SECCIÓN PRINCIPAL DEL PRODUCTO */}
-      <div className="w-full min-h-screen bg-white text-zinc-900 border-b border-zinc-200 py-12 md:py-16 flex items-center justify-center">
-        <div className="w-full px-0 sm:px-12 lg:px-20 flex flex-col md:flex-row items-center justify-between gap-8 lg:gap-16">
+      <div className="w-full py-12 md:py-16 flex items-center justify-center border-b border-zinc-200">
+        <div className="w-full px-6 sm:px-12 lg:px-20 flex flex-col md:flex-row items-center justify-between gap-8 lg:gap-16">
           
-          {/* Botella con animación suave de entrada */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full md:w-1/2 h-[65vh] sm:h-[80vh] lg:h-[90vh] relative flex justify-center items-center"
-          >
+          {/* Botella */}
+          <div className="w-full md:w-1/2 h-[55vh] sm:h-[70vh] lg:h-[80vh] relative flex justify-center items-center">
             <Image
               src={drink.productImage}
               alt={drink.productTitle}
@@ -154,46 +148,27 @@ function DrinkSection({ drink }: { drink: DrinkData }) {
               className="object-contain"
               priority
             />
-          </motion.div>
+          </div>
 
-          {/* Información del Producto con animación suave */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full md:w-1/2 space-y-6 text-left max-w-2xl px-6 md:px-0 flex flex-col items-start"
-          >
+          {/* Información del Producto */}
+          <div className="w-full md:w-1/2 space-y-6 text-left max-w-2xl px-0 flex flex-col items-start">
             
-            {/* Escudo del Producto */}
-            {drink.badgeImage && (
-              <div className="relative w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 -mb-2">
-                <Image
-                  src={drink.badgeImage}
-                  alt={`${drink.productTitle} Shield Logo`}
-                  fill
-                  sizes="(max-width: 768px) 160px, 200px"
-                  className="object-contain object-left"
-                />
-              </div>
-            )}
-
             <span className="inline-block text-xs font-semibold tracking-widest text-zinc-500 uppercase font-roboto border-b border-zinc-300 pb-1 text-left">
               {drink.badge}
             </span>
             
             <div className="space-y-2 text-left w-full">
-              <h2 className="font-oswald text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight text-zinc-900 uppercase leading-none text-left">
+              <h3 className="font-oswald text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-zinc-900 uppercase leading-none text-left">
                 {drink.productTitle}
-              </h2>
+              </h3>
               {drink.productSubtitle && (
-                <p className="font-oswald text-lg sm:text-2xl lg:text-3xl font-semibold uppercase text-zinc-400 tracking-wider text-left">
+                <p className="font-oswald text-lg sm:text-xl lg:text-2xl font-semibold uppercase text-zinc-400 tracking-wider text-left">
                   {drink.productSubtitle}
                 </p>
               )}
             </div>
             
-            <p className="font-roboto text-zinc-700 text-base sm:text-xl lg:text-2xl leading-relaxed font-light text-left">
+            <p className="font-roboto text-zinc-700 text-base sm:text-lg lg:text-xl leading-relaxed font-light text-left">
               {drink.productDescription}
             </p>
 
@@ -220,20 +195,14 @@ function DrinkSection({ drink }: { drink: DrinkData }) {
               </div>
             )}
 
-          </motion.div>
+          </div>
 
         </div>
       </div>
 
       {/* 1.5 SECCIÓN DE VIDEO DE PREPARACIÓN DE CÓCTEL */}
       {drink.video && (
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.7 }}
-          className="w-full bg-black py-12 md:py-20 border-b border-zinc-200 flex flex-col items-center justify-center"
-        >
+        <div className="w-full bg-black py-12 md:py-20 border-b border-zinc-200 flex flex-col items-center justify-center">
           <div className="max-w-5xl w-full px-4 sm:px-6">
             <video
               src={drink.video}
@@ -244,22 +213,16 @@ function DrinkSection({ drink }: { drink: DrinkData }) {
               className="w-full h-auto max-h-[75vh] object-cover shadow-2xl rounded-sm"
             />
           </div>
-        </motion.div>
+        </div>
       )}
 
       {/* 2. SECCIÓN CÓCTEL Y RECETA */}
       {hasCocktail && drink.cocktailImage && (
-        <div className="w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 min-h-screen">
+        <div className="w-full border-b border-zinc-200">
+          <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[80vh]">
             
-            {/* Foto del Cóctel con entrada parallax/fade */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.8 }}
-              className="lg:col-span-6 relative min-h-[500px] lg:min-h-screen flex items-center justify-start bg-zinc-950 p-8 sm:p-12 md:p-16 text-left"
-            >
+            {/* Foto del Cóctel */}
+            <div className="lg:col-span-6 relative min-h-[450px] lg:min-h-[80vh] flex items-center justify-start bg-zinc-950 p-8 sm:p-12 md:p-16 text-left">
               <Image
                 src={drink.cocktailImage}
                 alt={drink.cocktailTitle || drink.productTitle}
@@ -287,16 +250,10 @@ function DrinkSection({ drink }: { drink: DrinkData }) {
                   </p>
                 )}
               </div>
-            </motion.div>
+            </div>
 
             {/* Pestañas del Cóctel */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-              className="lg:col-span-6 p-8 sm:p-12 lg:p-16 bg-white flex flex-col justify-center border-t lg:border-t-0 lg:border-l border-zinc-200 text-left"
-            >
+            <div className="lg:col-span-6 p-8 sm:p-12 lg:p-16 bg-white flex flex-col justify-center border-t lg:border-t-0 lg:border-l border-zinc-200 text-left">
               
               <nav className="flex items-center justify-start border-b border-zinc-200 gap-8 pb-3 mb-8">
                 <button
@@ -391,7 +348,7 @@ function DrinkSection({ drink }: { drink: DrinkData }) {
                 </div>
               )}
 
-            </motion.div>
+            </div>
 
           </div>
         </div>
@@ -402,11 +359,69 @@ function DrinkSection({ drink }: { drink: DrinkData }) {
 }
 
 export default function Drinks() {
+  const [openDrinkId, setOpenDrinkId] = useState<string | null>("petit-aperol");
+
+  const handleShieldClick = (id: string) => {
+    setOpenDrinkId((prev) => (prev === id ? null : id));
+  };
+
+  const activeDrink = DRINKS_DATA.find((drink) => drink.id === openDrinkId);
+
   return (
-    <section className="w-full bg-white text-zinc-900 overflow-hidden">
-      {DRINKS_DATA.map((drink) => (
-        <DrinkSection key={drink.id} drink={drink} />
-      ))}
+    <section className="w-full bg-white text-zinc-900 overflow-hidden py-12 md:py-16">
+      
+      {/* SECTOR DE GATILLOS: LOS 3 ESCUDOS GRANDES LADO A LADO SIN TÍTULOS */}
+      <div className="w-full max-w-5xl mx-auto px-6 flex items-center justify-center gap-8 sm:gap-16 md:gap-20 lg:gap-28 mb-10 sm:mb-16">
+        {DRINKS_DATA.map((drink) => {
+          const isActive = openDrinkId === drink.id;
+          return (
+            <button
+              key={drink.id}
+              onClick={() => handleShieldClick(drink.id)}
+              aria-label={`Seleccionar ${drink.productTitle}`}
+              className={`relative group cursor-pointer transition-all duration-300 transform flex flex-col items-center focus:outline-none ${
+                isActive
+                  ? "scale-110 opacity-100"
+                  : "opacity-40 hover:opacity-90 hover:scale-105"
+              }`}
+            >
+              <div className="relative w-28 h-28 sm:w-44 sm:h-44 md:w-56 md:h-56 lg:w-64 lg:h-64">
+                <Image
+                  src={drink.badgeImage!}
+                  alt={`${drink.productTitle} Shield`}
+                  fill
+                  sizes="(max-width: 640px) 112px, (max-width: 1024px) 224px, 256px"
+                  className="object-contain filter drop-shadow-md group-hover:drop-shadow-xl transition-all"
+                  priority
+                />
+              </div>
+
+              {/* Indicador visual de selección activo (Línea Burdeos) */}
+              <div
+                className={`h-1.5 rounded-full bg-[#800020] transition-all duration-300 mt-3 ${
+                  isActive ? "w-12 sm:w-20 opacity-100" : "w-0 opacity-0 group-hover:w-8 group-hover:opacity-40"
+                }`}
+              />
+            </button>
+          );
+        })}
+      </div>
+
+      {/* CONTENIDO DESPLEGABLE DE LA BEBIDA SELECCIONADA */}
+      <AnimatePresence mode="wait">
+        {activeDrink && (
+          <motion.div
+            key={activeDrink.id}
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -25 }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <DrinkSectionContent drink={activeDrink} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </section>
   );
 }
