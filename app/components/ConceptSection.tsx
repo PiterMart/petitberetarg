@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 export interface ConceptSectionProps {
   title: string;
   subtitle?: string;
-  paragraphs: string[];
+  paragraphs: (string | React.ReactNode)[];
   imageSrc?: string;
   images?: string[];
   imageAlt?: string;
@@ -193,7 +193,7 @@ export default function ConceptSection({
 
                   <div className="space-y-4 font-roboto text-zinc-700 text-base md:text-lg leading-relaxed font-light">
                     {paragraphs.map((paragraph, idx) => (
-                      <p key={idx}>{paragraph}</p>
+                      <div key={idx}>{paragraph}</div>
                     ))}
                   </div>
                 </motion.div>
