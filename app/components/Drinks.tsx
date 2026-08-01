@@ -46,7 +46,8 @@ export const DRINKS_DATA: DrinkData[] = [
     productTitle: "Orange Spritz",
     productSubtitle: "Inspiré de la liqueur d'orange",
     productImage: "/CocktailAperol/petitAperol.webp",
-    productDescription: "",
+    productDescription:
+      "Fresca, aromática y profundamente vegetal, nuestra esencia se inspira en la riqueza de los aperitivos tradicionales sin nada de alcohol. Elaborada sin fermentación, revela una compleja paleta de plantas, hierbas y cítricos. Una alternativa elegante y sensorial, pensada para los amantes de la mixología y la libertad.",
     video: "/CocktailAperol/Preparation aperol_1.mp4",
     cocktailBadge: "Cocktail",
     cocktailTitle: "Orange Spritz 0%",
@@ -77,7 +78,8 @@ export const DRINKS_DATA: DrinkData[] = [
     productTitle: "Botanique Tonic",
     productSubtitle: "Inspiré du Gin",
     productImage: "/CocktailGin/petitGin.webp",
-    productDescription: "",
+    productDescription:
+      "Ultra fresco e intensamente aromático, nuestro Essence Botanique rinde homenaje a las grandes ginebras botánicas sin contener una sola gota de alcohol. Revela vibrantes notas de enebro, cítricos frescos y hierbas aromáticas finamente seleccionadas para elevar la experiencia de cocktail contemporánea.",
     cocktailBadge: "Cocktail",
     cocktailTitle: "Botanique Tonic 0%",
     cocktailImage: "/CocktailGin/Cocktail_Gin_Basil_Smash_0.webp",
