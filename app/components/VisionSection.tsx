@@ -70,13 +70,13 @@ export default function VisionSection() {
 
         <div className="space-y-6 sm:space-y-8 max-w-3xl text-center my-4">
 
-          {/* Primer párrafo de la visión */}
-          <p className="font-roboto text-xl sm:text-3xl md:text-3xl font-medium leading-tight text-center text-zinc-900">
+          {/* Primer párrafo de la visión (Texto superior - Tamaño Grande) */}
+          <p className="font-roboto text-xl sm:text-2xl md:text-3xl font-medium leading-snug text-center text-zinc-900">
             {PARAGRAPH_1}
           </p>
 
-          {/* Segundo párrafo de la visión */}
-          <p className="font-roboto text-xl sm:text-1xl md:text-3xl font-medium leading-0.5rem text-center text-zinc-800">
+          {/* Segundo párrafo de la visión (Texto inferior - Tamaño más pequeño) */}
+          <p className="font-roboto text-base sm:text-lg md:text-xl font-normal leading-relaxed text-center text-zinc-700">
             {PARAGRAPH_2}
           </p>
 

@@ -94,14 +94,14 @@ export default function ConceptSection({
             className="overflow-hidden bg-zinc-50/50 border-t border-zinc-100"
           >
             <div className="w-full py-10 md:py-16">
-              <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 flex flex-col lg:flex-row gap-8 lg:gap-16 items-center">
+              <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 flow-root">
                 
-                {/* COLUMNA 1: IMAGEN CON ENTRADA SUAVE */}
+                {/* COLUMNA 1: IMAGEN FLOTANTE (SIN BORDES NI SOMBRAS, TAMAÑO MÁXIMO) */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.1 }}
-                  className="w-full lg:w-1/2 min-h-[360px] sm:min-h-[480px] lg:min-h-[540px] relative bg-white border border-zinc-200 overflow-hidden flex items-center justify-center shrink-0 shadow-sm"
+                  className="w-full lg:w-[48%] xl:w-[52%] lg:float-left lg:mr-10 lg:mb-6 mb-8 relative h-[360px] sm:h-[480px] lg:h-[520px] xl:h-[580px] overflow-hidden rounded-none border-0 shadow-none bg-transparent"
                 >
                   {imageList.length > 0 ? (
                     <>
@@ -109,7 +109,7 @@ export default function ConceptSection({
                       {imageList.map((src, idx) => (
                         <div
                           key={src}
-                          className={`absolute inset-0 transition-opacity duration-700 ease-in-out flex items-center justify-center p-0 ${
+                          className={`absolute inset-0 transition-opacity duration-700 ease-in-out flex items-center justify-center ${
                             idx === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
                           }`}
                         >
@@ -117,8 +117,8 @@ export default function ConceptSection({
                             src={src}
                             alt={`${imageAlt} - ${idx + 1}`}
                             fill
-                            sizes="(max-width: 1024px) 100vw, 50vw"
-                            className="object-cover md:object-contain p-0 md:p-2"
+                            sizes="(max-width: 1024px) 100vw, 55vw"
+                            className="object-cover rounded-none p-0"
                             priority={idx === 0}
                           />
                         </div>
@@ -160,8 +160,8 @@ export default function ConceptSection({
                                 aria-label={`Ir a la imagen ${idx + 1}`}
                                 className={`w-2.5 h-2.5 rounded-full transition-all cursor-pointer ${
                                   idx === currentIndex
-                                    ? "bg-zinc-900 w-6"
-                                    : "bg-zinc-400 hover:bg-zinc-700"
+                                    ? "bg-white w-6"
+                                    : "bg-white/50 hover:bg-white"
                                 }`}
                               />
                             ))}
@@ -178,15 +178,15 @@ export default function ConceptSection({
                   )}
                 </motion.div>
 
-                {/* COLUMNA 2: CONTENEDOR DE TEXTO */}
+                {/* COLUMNA 2: CONTENEDOR DE TEXTO QUE RODEA LA IMAGEN */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.15 }}
-                  className="flex-1 space-y-6 text-left"
+                  className="space-y-6 text-left"
                 >
                   {subtitle && (
-                    <p className="text-[#800020] font-roboto text-lg md:text-xl font-medium">
+                    <p className="text-[#800020] font-roboto text-lg md:text-xl lg:text-2xl font-medium">
                       {subtitle}
                     </p>
                   )}
@@ -201,7 +201,7 @@ export default function ConceptSection({
               </div>
 
               {/* Botón simple de cerrar al final de la sección */}
-              <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 pt-8 md:pt-10 flex justify-end">
+              <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 pt-8 md:pt-10 flex justify-end clear-both">
                 <button
                   onClick={onToggle}
                   className="text-xs font-medium tracking-wider text-zinc-500 hover:text-[#800020] uppercase font-roboto underline underline-offset-4 cursor-pointer transition-colors"

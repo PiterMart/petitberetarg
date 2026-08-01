@@ -225,22 +225,6 @@ function DrinkSectionContent({ drink }: { drink: DrinkData }) {
         </div>
       </div>
 
-      {/* 1.5 SECCIÓN DE VIDEO DE PREPARACIÓN DE CÓCTEL */}
-      {drink.video && (
-        <div className="w-full bg-black py-12 md:py-20 border-b border-zinc-200 flex flex-col items-center justify-center">
-          <div className="max-w-5xl w-full px-4 sm:px-6">
-            <video
-              src={drink.video}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full h-auto max-h-[75vh] object-cover shadow-2xl rounded-sm"
-            />
-          </div>
-        </div>
-      )}
-
       {/* 2. SECCIÓN CÓCTEL Y RECETA */}
       {hasCocktail && drink.cocktailImage && (
         <div className="w-full border-b border-zinc-200">
@@ -277,111 +261,127 @@ function DrinkSectionContent({ drink }: { drink: DrinkData }) {
               </div>
             </div>
 
-            {/* Pestañas + Contenedor de Desplazamiento Táctil Horizontal */}
-            <div className="lg:col-span-6 p-6 sm:p-12 lg:p-16 bg-white flex flex-col justify-center border-t lg:border-t-0 lg:border-l border-zinc-200 text-left overflow-hidden">
+            {/* Columna Derecha: Video en la parte superior + Pestañas e Ingredientes/Materiales/Receta */}
+            <div className="lg:col-span-6 bg-white flex flex-col justify-between border-t lg:border-t-0 lg:border-l border-zinc-200 text-left overflow-hidden p-0">
 
-              {/* Navegación de pestañas */}
-              <nav className="flex items-center justify-start border-b border-zinc-200 gap-6 sm:gap-8 pb-3 mb-8 overflow-x-auto scrollbar-none">
-                {tabs.map((tab, idx) => (
-                  <button
-                    key={tab.id}
-                    onClick={() => handleTabClick(tab.id, idx)}
-                    className={`font-roboto text-sm sm:text-base uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${cocktailTab === tab.id
-                        ? "font-bold text-zinc-900 border-b-2 border-zinc-900 -mb-[13px] pb-3"
-                        : "text-zinc-400 hover:text-zinc-700"
-                      }`}
-                  >
-                    {tab.label}
-                  </button>
-                ))}
-              </nav>
-
-              {/* Contenedor Horizontal deslizable por Touch / Swipe */}
-              <div
-                ref={scrollRef}
-                onScroll={handleScroll}
-                className="w-full flex overflow-x-auto snap-x snap-mandatory scrollbar-none touch-pan-x space-x-0"
-                style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-              >
-                {/* SLIDE 1: INGREDIENTES */}
-                <div className="w-full min-w-full snap-start shrink-0 pr-4 sm:pr-6 space-y-6 text-left">
-                  <h3 className="font-oswald text-3xl sm:text-4xl font-bold text-zinc-900 uppercase text-left">
-                    Ingredientes
-                  </h3>
-                  {drink.ingredients ? (
-                    <ul className="space-y-4 font-roboto text-base sm:text-lg text-zinc-800 text-left">
-                      {drink.ingredients.map((item, idx) => (
-                        <li key={idx} className="flex items-center gap-3 text-left">
-                          <span className="w-1.5 h-1.5 rounded-full bg-zinc-900 shrink-0"></span>
-                          <span>
-                            {item.amountText}
-                            {item.highlightText && (
-                              <a
-                                href="#"
-                                className="font-oswald font-bold uppercase underline underline-offset-4 text-zinc-900 hover:text-zinc-700"
-                              >
-                                {item.highlightText}
-                              </a>
-                            )}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p className="text-zinc-500 italic">No hay ingredientes registrados.</p>
-                  )}
-                </div>
-
-                {/* SLIDE 2: MATERIALES */}
-                <div className="w-full min-w-full snap-start shrink-0 pr-4 sm:pr-6 space-y-6 text-left">
-                  <h3 className="font-oswald text-3xl sm:text-4xl font-bold text-zinc-900 uppercase text-left">
-                    Materiales
-                  </h3>
-                  {drink.materials ? (
-                    <ul className="space-y-4 font-roboto text-base sm:text-lg text-zinc-800 text-left">
-                      {drink.materials.map((mat, idx) => (
-                        <li key={idx} className="flex items-center gap-3 text-left">
-                          <span className="w-1.5 h-1.5 rounded-full bg-zinc-900 shrink-0"></span>
-                          <span className="font-oswald font-bold uppercase tracking-wider text-zinc-900 text-left">
-                            {mat}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p className="text-zinc-500 italic">No hay materiales registrados.</p>
-                  )}
-                </div>
-
-                {/* SLIDE 3: RECETA */}
-                <div className="w-full min-w-full snap-start shrink-0 pr-4 sm:pr-6 space-y-6 text-left">
-                  <h3 className="font-oswald text-3xl sm:text-4xl font-bold text-zinc-900 uppercase text-left">
-                    Receta
-                  </h3>
-                  {drink.recipe ? (
-                    <div className="space-y-4 font-roboto text-base sm:text-lg text-zinc-700 leading-relaxed font-light text-left">
-                      {drink.recipe.map((step, idx) => (
-                        <p key={idx} className="text-left">{step}</p>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-zinc-500 italic">No hay receta disponible.</p>
-                  )}
-                </div>
-
-              </div>
-
-              {/* Indicadores visuales de puntos (Dots) para móviles */}
-              <div className="flex items-center justify-center gap-2 mt-8 lg:hidden">
-                {tabs.map((tab, idx) => (
-                  <button
-                    key={tab.id}
-                    onClick={() => handleTabClick(tab.id, idx)}
-                    aria-label={`Ver ${tab.label}`}
-                    className={`h-2 rounded-full transition-all duration-300 ${cocktailTab === tab.id ? "w-6 bg-zinc-900" : "w-2 bg-zinc-300"
-                      }`}
+              {/* Video de preparación (sin fondo negro ni padding, directamente arriba de las pestañas) */}
+              {drink.video && (
+                <div className="w-full relative bg-transparent p-0 m-0 border-b border-zinc-200">
+                  <video
+                    src={drink.video}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-auto object-cover p-0 m-0 block"
                   />
-                ))}
+                </div>
+              )}
+
+              <div className="p-6 sm:p-10 lg:p-12 flex flex-col justify-center flex-1">
+                {/* Navegación de pestañas */}
+                <nav className="flex items-center justify-start border-b border-zinc-200 gap-6 sm:gap-8 pb-3 mb-8 overflow-x-auto scrollbar-none">
+                  {tabs.map((tab, idx) => (
+                    <button
+                      key={tab.id}
+                      onClick={() => handleTabClick(tab.id, idx)}
+                      className={`font-roboto text-sm sm:text-base uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${cocktailTab === tab.id
+                          ? "font-bold text-zinc-900 border-b-2 border-zinc-900 -mb-[13px] pb-3"
+                          : "text-zinc-400 hover:text-zinc-700"
+                        }`}
+                    >
+                      {tab.label}
+                    </button>
+                  ))}
+                </nav>
+
+                {/* Contenedor Horizontal deslizable por Touch / Swipe */}
+                <div
+                  ref={scrollRef}
+                  onScroll={handleScroll}
+                  className="w-full flex overflow-x-auto snap-x snap-mandatory scrollbar-none touch-pan-x space-x-0"
+                  style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+                >
+                  {/* SLIDE 1: INGREDIENTES */}
+                  <div className="w-full min-w-full snap-start shrink-0 pr-4 sm:pr-6 space-y-6 text-left">
+                    <h3 className="font-oswald text-3xl sm:text-4xl font-bold text-zinc-900 uppercase text-left">
+                      Ingredientes
+                    </h3>
+                    {drink.ingredients ? (
+                      <ul className="space-y-4 font-roboto text-base sm:text-lg text-zinc-800 text-left">
+                        {drink.ingredients.map((item, idx) => (
+                          <li key={idx} className="flex items-center gap-3 text-left">
+                            <span className="w-1.5 h-1.5 rounded-full bg-zinc-900 shrink-0"></span>
+                            <span>
+                              {item.amountText}
+                              {item.highlightText && (
+                                <a
+                                  href="#"
+                                  className="font-oswald font-bold uppercase underline underline-offset-4 text-zinc-900 hover:text-zinc-700"
+                                >
+                                  {item.highlightText}
+                                </a>
+                              )}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="text-zinc-500 italic">No hay ingredientes registrados.</p>
+                    )}
+                  </div>
+
+                  {/* SLIDE 2: MATERIALES */}
+                  <div className="w-full min-w-full snap-start shrink-0 pr-4 sm:pr-6 space-y-6 text-left">
+                    <h3 className="font-oswald text-3xl sm:text-4xl font-bold text-zinc-900 uppercase text-left">
+                      Materiales
+                    </h3>
+                    {drink.materials ? (
+                      <ul className="space-y-4 font-roboto text-base sm:text-lg text-zinc-800 text-left">
+                        {drink.materials.map((mat, idx) => (
+                          <li key={idx} className="flex items-center gap-3 text-left">
+                            <span className="w-1.5 h-1.5 rounded-full bg-zinc-900 shrink-0"></span>
+                            <span className="font-oswald font-bold uppercase tracking-wider text-zinc-900 text-left">
+                              {mat}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="text-zinc-500 italic">No hay materiales registrados.</p>
+                    )}
+                  </div>
+
+                  {/* SLIDE 3: RECETA */}
+                  <div className="w-full min-w-full snap-start shrink-0 pr-4 sm:pr-6 space-y-6 text-left">
+                    <h3 className="font-oswald text-3xl sm:text-4xl font-bold text-zinc-900 uppercase text-left">
+                      Receta
+                    </h3>
+                    {drink.recipe ? (
+                      <div className="space-y-4 font-roboto text-base sm:text-lg text-zinc-700 leading-relaxed font-light text-left">
+                        {drink.recipe.map((step, idx) => (
+                          <p key={idx} className="text-left">{step}</p>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-zinc-500 italic">No hay receta disponible.</p>
+                    )}
+                  </div>
+
+                </div>
+
+                {/* Indicadores visuales de puntos (Dots) para móviles */}
+                <div className="flex items-center justify-center gap-2 mt-8 lg:hidden">
+                  {tabs.map((tab, idx) => (
+                    <button
+                      key={tab.id}
+                      onClick={() => handleTabClick(tab.id, idx)}
+                      aria-label={`Ver ${tab.label}`}
+                      className={`h-2 rounded-full transition-all duration-300 ${cocktailTab === tab.id ? "w-6 bg-zinc-900" : "w-2 bg-zinc-300"
+                        }`}
+                    />
+                  ))}
+                </div>
               </div>
 
             </div>

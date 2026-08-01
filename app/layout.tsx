@@ -4,7 +4,12 @@ import ScrollProgress from "./components/ScrollProgress";
 
 export const metadata: Metadata = {
   title: "Le Petit Beret",
-  description: "Le Petit Beret Argentina",
+  description: "Bebidas orgánicas, premiadas internacionalmente y diseñadas para quienes buscan calidad premium sin el peso del alcohol.",
+  icons: {
+    icon: "/PB_fond_noir-ISO.avif",
+    shortcut: "/PB_fond_noir-ISO.avif",
+    apple: "/PB_fond_noir-ISO.avif",
+  },
 };
 
 export default function RootLayout({
