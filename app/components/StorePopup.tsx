@@ -105,7 +105,7 @@ export default function StorePopup() {
 
             {/* Botón (CTA) */}
             <a
-              href="https://lepetitberet.com.ar/"
+              href="https://tienda.lepetitberet.com.ar"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2.5 w-full py-3.5 px-6 rounded-xl font-oswald text-base tracking-wider uppercase bg-[#800020] text-white hover:bg-[#600018] active:scale-[0.98] transition-all shadow-md hover:shadow-lg cursor-pointer"
@@ -133,7 +133,7 @@ export default function StorePopup() {
       {isMinimized && (
         <div className="fixed bottom-5 right-5 z-40 flex items-center gap-2 animate-bounceIn">
           <a
-            href="https://lepetitberet.com.ar/"
+            href="https://tienda.lepetitberet.com.ar"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-5 py-3 rounded-full font-oswald text-sm sm:text-base tracking-wider uppercase bg-[#800020] text-white hover:bg-[#600018] active:scale-95 transition-all shadow-2xl hover:shadow-red-950/40 border border-white/20 cursor-pointer"
